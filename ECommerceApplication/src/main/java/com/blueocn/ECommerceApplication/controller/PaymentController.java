@@ -2,6 +2,7 @@ package com.blueocn.ECommerceApplication.controller;
 
 import com.blueocn.ECommerceApplication.model.dto.payment.PaymentCreateDTO;
 import com.blueocn.ECommerceApplication.model.dto.payment.PaymentDTO;
+import com.blueocn.ECommerceApplication.model.dto.payment.PaymentPatchDTO;
 import com.blueocn.ECommerceApplication.model.dto.payment.PaymentUpdateDTO;
 import com.blueocn.ECommerceApplication.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,6 +55,12 @@ public class PaymentController {
     @Operation(summary = "Update payment by ID")
     public ResponseEntity<PaymentDTO> updatePaymentById(@PathVariable(name = "id") Long id, @RequestBody @Valid PaymentUpdateDTO updatedPayment) {
         return ResponseEntity.ok(paymentService.updatePaymentById(id, updatedPayment));
+    }
+
+    @PatchMapping("{id}")
+    @Operation(summary = "Patch payment by ID")
+    public ResponseEntity<PaymentDTO> patchPaymentById(@PathVariable(name = "id") Long id, @RequestBody @Valid PaymentPatchDTO patchedPayment) {
+        return ResponseEntity.ok(paymentService.patchPaymentById(id, patchedPayment));
     }
 
     @DeleteMapping("/{id}")

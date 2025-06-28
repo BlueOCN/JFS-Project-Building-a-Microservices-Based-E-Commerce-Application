@@ -1,9 +1,6 @@
 package com.blueocn.ECommerceApplication.service;
 
-import com.blueocn.ECommerceApplication.model.dto.payment.PaymentCreateDTO;
-import com.blueocn.ECommerceApplication.model.dto.payment.PaymentDTO;
-import com.blueocn.ECommerceApplication.model.dto.payment.PaymentStatus;
-import com.blueocn.ECommerceApplication.model.dto.payment.PaymentUpdateDTO;
+import com.blueocn.ECommerceApplication.model.dto.payment.*;
 import com.blueocn.ECommerceApplication.model.entity.PaymentEntity;
 import com.blueocn.ECommerceApplication.model.mapper.PaymentMapper;
 import com.blueocn.ECommerceApplication.model.repository.PaymentRepository;
@@ -52,6 +49,16 @@ public class PaymentService {
             storedPayment.setPaymentStatus(PaymentStatus.PROCESSING);
             PaymentEntity updatedPaymentEntity = paymentRepository.save(storedPayment);
             return paymentMapper.PaymentEntityToPaymentDTO(updatedPaymentEntity);
+        }).orElseThrow(() -> new RuntimeException("Payment not found"));
+    }
+
+    public PaymentDTO patchPaymentById(Long id, PaymentPatchDTO patchedPayment) {
+        return paymentRepository.findById(id).map(paymentEntity -> {
+            if (patchedPayment.getOrderId() != null) paymentEntity.setOrderId(patchedPayment.getOrderId());
+            if (patchedPayment.getPaymentMethod() != null) paymentEntity.setPaymentMethod(patchedPayment.getPaymentMethod());
+            if (patchedPayment.getPaymentMagnitude() != null) paymentEntity.setPaymentMagnitude(patchedPayment.getPaymentMagnitude());
+            paymentEntity.setPaymentStatus(PaymentStatus.PROCESSING);
+            return paymentMapper.PaymentEntityToPaymentDTO(paymentEntity);
         }).orElseThrow(() -> new RuntimeException("Payment not found"));
     }
 
