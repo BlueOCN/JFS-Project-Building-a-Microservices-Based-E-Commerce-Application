@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
-public class CreateProductDTO {
+public class ProductCreateDTO {
 
     @NotBlank
     @Size(min = 2, max = 100)
@@ -23,10 +23,10 @@ public class CreateProductDTO {
     @Max(10000)
     private int stock;
 
-    public CreateProductDTO() {
+    public ProductCreateDTO() {
     }
 
-    public CreateProductDTO(String name, String description, BigDecimal price, int stock) {
+    public ProductCreateDTO(String name, String description, BigDecimal price, int stock) {
         this.name = name;
         this.description = description;
         this.price = price;

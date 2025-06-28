@@ -1,8 +1,8 @@
 package com.blueocn.ECommerceApplication.service;
 
-import com.blueocn.ECommerceApplication.model.dto.order.CreateOrderDTO;
+import com.blueocn.ECommerceApplication.model.dto.order.OrderCreateDTO;
 import com.blueocn.ECommerceApplication.model.dto.order.OrderDTO;
-import com.blueocn.ECommerceApplication.model.dto.order.UpdateOrderDTO;
+import com.blueocn.ECommerceApplication.model.dto.order.OrderUpdateDTO;
 import com.blueocn.ECommerceApplication.model.entity.OrderEntity;
 import com.blueocn.ECommerceApplication.model.entity.ProductEntity;
 import com.blueocn.ECommerceApplication.model.mapper.OrderMapper;
@@ -27,7 +27,7 @@ public class OrderService {
     }
 
     // Create order
-    public OrderDTO createOrder(CreateOrderDTO newOrder) {
+    public OrderDTO createOrder(OrderCreateDTO newOrder) {
 
         // Extract Order Product's Ids from the New Order
         List<Long> orderProductIds = newOrder.getOrderProducts();
@@ -60,7 +60,7 @@ public class OrderService {
     }
 
     // Update order by id
-    public OrderDTO updateOrderById(Long id, UpdateOrderDTO updatedOrder) {
+    public OrderDTO updateOrderById(Long id, OrderUpdateDTO updatedOrder) {
 
         // Extract Order Product's Ids from the New Order
         List<Long> orderProductIds = updatedOrder.getOrderProductIds();

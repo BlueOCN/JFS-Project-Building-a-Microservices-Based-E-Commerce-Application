@@ -1,6 +1,5 @@
 package com.blueocn.ECommerceApplication.model.dto.order;
 
-import com.blueocn.ECommerceApplication.model.entity.ProductEntity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CreateOrderDTO {
+public class OrderUpdateDTO {
 
     @NotNull(message = "User ID cannot be null")
     @Min(value = 1, message = "User ID must be greater than 0")
@@ -21,10 +20,10 @@ public class CreateOrderDTO {
     @NotEmpty(message = "Order's products cannot be empty")
     private List<Long> orderProductIds = new ArrayList<>();
 
-    public CreateOrderDTO() {
+    public OrderUpdateDTO() {
     }
 
-    public CreateOrderDTO(Long userId, OrderStatus orderStatus, List<Long> orderProductIds) {
+    public OrderUpdateDTO(Long userId, OrderStatus orderStatus, List<Long> orderProductIds) {
         this.userId = userId;
         this.orderStatus = orderStatus;
         this.orderProductIds = orderProductIds;
@@ -46,17 +45,17 @@ public class CreateOrderDTO {
         this.orderStatus = orderStatus;
     }
 
-    public List<Long> getOrderProducts() {
+    public List<Long> getOrderProductIds() {
         return orderProductIds;
     }
 
-    public void setOrderProducts(List<Long> orderProductIds) {
+    public void setOrderProductIds(List<Long> orderProductIds) {
         this.orderProductIds = orderProductIds;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof CreateOrderDTO that)) return false;
+        if (!(o instanceof OrderUpdateDTO that)) return false;
         return Objects.equals(userId, that.userId) && orderStatus == that.orderStatus && Objects.equals(orderProductIds, that.orderProductIds);
     }
 
@@ -67,7 +66,7 @@ public class CreateOrderDTO {
 
     @Override
     public String toString() {
-        return "CreateOrderDTO{" +
+        return "UpdateOrderDTO{" +
                 "userId=" + userId +
                 ", orderStatus=" + orderStatus +
                 ", orderProducts=" + orderProductIds +

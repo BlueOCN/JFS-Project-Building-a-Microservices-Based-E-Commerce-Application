@@ -1,6 +1,6 @@
 package com.blueocn.ECommerceApplication.service;
 
-import com.blueocn.ECommerceApplication.model.dto.product.CreateProductDTO;
+import com.blueocn.ECommerceApplication.model.dto.product.ProductCreateDTO;
 import com.blueocn.ECommerceApplication.model.dto.product.ProductDTO;
 import com.blueocn.ECommerceApplication.model.entity.ProductEntity;
 import com.blueocn.ECommerceApplication.model.mapper.ProductMapper;
@@ -23,13 +23,13 @@ public class ProductService {
 
 
     // Create product
-    public ProductDTO createProduct(CreateProductDTO newProduct) {
+    public ProductDTO createProduct(ProductCreateDTO newProduct) {
         ProductEntity savedProduct = productRepository.save(new ProductEntity(newProduct.getName(), newProduct.getDescription(), newProduct.getPrice(), newProduct.getStock()));
         return productMapper.toDTO(savedProduct);
     }
 
     // Create product
-    public List<ProductDTO> createProducts(List<CreateProductDTO> newProducts) {
+    public List<ProductDTO> createProducts(List<ProductCreateDTO> newProducts) {
 
         if (newProducts == null || newProducts.isEmpty()) {
             throw new IllegalArgumentException("Product list must not be empty.");

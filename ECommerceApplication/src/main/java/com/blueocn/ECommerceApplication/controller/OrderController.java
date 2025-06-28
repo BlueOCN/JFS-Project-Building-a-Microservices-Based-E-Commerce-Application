@@ -1,8 +1,8 @@
 package com.blueocn.ECommerceApplication.controller;
 
-import com.blueocn.ECommerceApplication.model.dto.order.CreateOrderDTO;
+import com.blueocn.ECommerceApplication.model.dto.order.OrderCreateDTO;
 import com.blueocn.ECommerceApplication.model.dto.order.OrderDTO;
-import com.blueocn.ECommerceApplication.model.dto.order.UpdateOrderDTO;
+import com.blueocn.ECommerceApplication.model.dto.order.OrderUpdateDTO;
 import com.blueocn.ECommerceApplication.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "Create order")
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody @Valid CreateOrderDTO newOrder) {
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody @Valid OrderCreateDTO newOrder) {
         // Create Resource
         OrderDTO createdOrder = orderService.createOrder(newOrder);
 
@@ -47,7 +47,7 @@ public class OrderController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update order by ID")
-    public ResponseEntity<OrderDTO> updateOrderById(@PathVariable(name = "id") Long id, @RequestBody @Valid UpdateOrderDTO updatedOrder) {
+    public ResponseEntity<OrderDTO> updateOrderById(@PathVariable(name = "id") Long id, @RequestBody @Valid OrderUpdateDTO updatedOrder) {
         return ResponseEntity.ok(orderService.updateOrderById(id, updatedOrder));
     }
 

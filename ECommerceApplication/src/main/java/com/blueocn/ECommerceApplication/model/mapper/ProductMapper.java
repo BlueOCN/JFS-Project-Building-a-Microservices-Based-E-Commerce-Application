@@ -1,6 +1,6 @@
 package com.blueocn.ECommerceApplication.model.mapper;
 
-import com.blueocn.ECommerceApplication.model.dto.product.CreateProductDTO;
+import com.blueocn.ECommerceApplication.model.dto.product.ProductCreateDTO;
 import com.blueocn.ECommerceApplication.model.dto.product.ProductDTO;
 import com.blueocn.ECommerceApplication.model.entity.ProductEntity;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ public class ProductMapper {
         return new ProductDTO(entity.getId(), entity.getName(), entity.getDescription(), entity.getPrice(), entity.getStock());
     }
 
-    public ProductEntity fromDTO(CreateProductDTO dto) {
+    public ProductEntity fromDTO(ProductCreateDTO dto) {
         return new ProductEntity(dto.getName(), dto.getDescription(), dto.getPrice(), dto.getStock());
     }
 

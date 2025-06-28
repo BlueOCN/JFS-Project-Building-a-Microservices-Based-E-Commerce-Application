@@ -1,17 +1,14 @@
 package com.blueocn.ECommerceApplication.model.dto.order;
 
-import com.blueocn.ECommerceApplication.model.entity.ProductEntity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class UpdateOrderDTO {
+public class OrderCreateDTO {
 
     @NotNull(message = "User ID cannot be null")
     @Min(value = 1, message = "User ID must be greater than 0")
@@ -23,10 +20,10 @@ public class UpdateOrderDTO {
     @NotEmpty(message = "Order's products cannot be empty")
     private List<Long> orderProductIds = new ArrayList<>();
 
-    public UpdateOrderDTO() {
+    public OrderCreateDTO() {
     }
 
-    public UpdateOrderDTO(Long userId, OrderStatus orderStatus, List<Long> orderProductIds) {
+    public OrderCreateDTO(Long userId, OrderStatus orderStatus, List<Long> orderProductIds) {
         this.userId = userId;
         this.orderStatus = orderStatus;
         this.orderProductIds = orderProductIds;
@@ -48,17 +45,17 @@ public class UpdateOrderDTO {
         this.orderStatus = orderStatus;
     }
 
-    public List<Long> getOrderProductIds() {
+    public List<Long> getOrderProducts() {
         return orderProductIds;
     }
 
-    public void setOrderProductIds(List<Long> orderProductIds) {
+    public void setOrderProducts(List<Long> orderProductIds) {
         this.orderProductIds = orderProductIds;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof UpdateOrderDTO that)) return false;
+        if (!(o instanceof OrderCreateDTO that)) return false;
         return Objects.equals(userId, that.userId) && orderStatus == that.orderStatus && Objects.equals(orderProductIds, that.orderProductIds);
     }
 
@@ -69,7 +66,7 @@ public class UpdateOrderDTO {
 
     @Override
     public String toString() {
-        return "UpdateOrderDTO{" +
+        return "CreateOrderDTO{" +
                 "userId=" + userId +
                 ", orderStatus=" + orderStatus +
                 ", orderProducts=" + orderProductIds +

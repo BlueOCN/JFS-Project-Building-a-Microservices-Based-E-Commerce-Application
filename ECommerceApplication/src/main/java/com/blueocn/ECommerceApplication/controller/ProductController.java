@@ -1,6 +1,6 @@
 package com.blueocn.ECommerceApplication.controller;
 
-import com.blueocn.ECommerceApplication.model.dto.product.CreateProductDTO;
+import com.blueocn.ECommerceApplication.model.dto.product.ProductCreateDTO;
 import com.blueocn.ECommerceApplication.model.dto.product.ProductDTO;
 import com.blueocn.ECommerceApplication.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +25,7 @@ public class ProductController {
 
     @PostMapping
     @Operation(summary = "Create product")
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody @Valid CreateProductDTO newProduct) {
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody @Valid ProductCreateDTO newProduct) {
 
         // Create Resource
         ProductDTO createdProduct = productService.createProduct(newProduct);
@@ -42,7 +42,7 @@ public class ProductController {
 
     @PostMapping("/bulk")
     @Operation(summary = "Bulk create products")
-    public ResponseEntity<?> createProducts(@RequestBody @Valid List<CreateProductDTO> newProducts) {
+    public ResponseEntity<?> createProducts(@RequestBody @Valid List<ProductCreateDTO> newProducts) {
         try {
             List<ProductDTO> createdProducts = productService.createProducts(newProducts);
 
