@@ -58,6 +58,12 @@ public class ProductService {
     }
 
 
+    public List<ProductDTO> getAllProductsByIds(List<Long> ids) {
+        return productRepository.findAllById(ids)
+                .stream().map(productMapper::toDTO)
+                .toList();
+    }
+
 
     // Update product by id
     public ProductDTO updateProductById(Long id, ProductDTO updatedProduct) {

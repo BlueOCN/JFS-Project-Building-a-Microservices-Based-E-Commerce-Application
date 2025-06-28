@@ -74,6 +74,12 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
+    @GetMapping("/bulk/{ids}")
+    @Operation(summary = "Retrieve products by IDs")
+    public ResponseEntity<List<ProductDTO>> getProductsByIds(@PathVariable(name = "ids") List<Long> ids) {
+        return ResponseEntity.ok(productService.getAllProductsByIds(ids));
+    }
+
     @PutMapping("/{id}")
     @Operation(summary = "Retrieve products by ID")
     public ResponseEntity<ProductDTO> updateProductById(@PathVariable(name = "id") Long id, @RequestBody @Valid ProductDTO updatedProduct) {
