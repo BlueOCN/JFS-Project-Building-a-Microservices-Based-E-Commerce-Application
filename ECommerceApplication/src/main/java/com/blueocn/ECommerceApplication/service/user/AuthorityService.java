@@ -16,7 +16,7 @@ public class AuthorityService {
     }
 
     public AuthorityEntity createAuthority(String username, String authority) {
-        if (authorityRepository.existsByUsername(username)) {
+        if (!authorityRepository.existsByUsername(username)) {
             return authorityRepository.save(new AuthorityEntity(username, authority));
         } else {
             throw new IllegalArgumentException("Username is already taken.");
