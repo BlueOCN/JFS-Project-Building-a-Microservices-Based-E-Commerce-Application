@@ -33,8 +33,8 @@ public class SecurityConfig {
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html",
-                        "/users/login",
-                        "/users/register"
+                        "/auth/login",
+                        "/auth/register"
                 ).permitAll()
                 // Protected Endpoints
                 .anyRequest().authenticated()

@@ -13,7 +13,7 @@ public class OrderMapper {
 
 //    public OrderEntity CDTOtoOE(CreateOrderDTO newOrder) {
 //        return new OrderEntity(
-//                newOrder.getUserId(),
+//                newOrder.getProfileId(),
 //                newOrder.getOrderStatus(),
 //                LocalDateTime.now(),
 //                LocalDateTime.now(),

@@ -3,7 +3,7 @@ package com.blueocn.ECommerceApplication.controller;
 import com.blueocn.ECommerceApplication.model.dto.order.OrderCreateDTO;
 import com.blueocn.ECommerceApplication.model.dto.order.OrderDTO;
 import com.blueocn.ECommerceApplication.model.dto.order.OrderUpdateDTO;
-import com.blueocn.ECommerceApplication.service.order.OrderService;
+import com.blueocn.ECommerceApplication.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

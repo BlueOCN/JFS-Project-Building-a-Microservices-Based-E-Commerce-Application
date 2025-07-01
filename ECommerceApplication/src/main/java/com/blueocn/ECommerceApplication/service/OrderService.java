@@ -1,14 +1,12 @@
-package com.blueocn.ECommerceApplication.service.order;
+package com.blueocn.ECommerceApplication.service;
 
 import com.blueocn.ECommerceApplication.model.dto.order.OrderCreateDTO;
 import com.blueocn.ECommerceApplication.model.dto.order.OrderDTO;
 import com.blueocn.ECommerceApplication.model.dto.order.OrderUpdateDTO;
-import com.blueocn.ECommerceApplication.model.dto.product.ProductDTO;
 import com.blueocn.ECommerceApplication.model.entity.OrderEntity;
 import com.blueocn.ECommerceApplication.model.entity.ProductEntity;
 import com.blueocn.ECommerceApplication.model.mapper.OrderMapper;
 import com.blueocn.ECommerceApplication.model.repository.OrderRepository;
-import com.blueocn.ECommerceApplication.model.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -45,7 +43,7 @@ public class OrderService {
 //        List<ProductEntity> orderProducts = productRepository.findAllById(orderProductIds);
 //
 //        OrderEntity newCompleteOrder = new OrderEntity(
-//                newOrder.getUserId(),
+//                newOrder.getProfileId(),
 //                newOrder.getOrderStatus(),
 //                LocalDateTime.now(),
 //                LocalDateTime.now(),
