@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,6 +26,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Create product")
@@ -44,6 +46,7 @@ public class ProductController {
     }
 
     @PostMapping("/bulk")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Bulk create products")
@@ -67,6 +70,7 @@ public class ProductController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve all products")
@@ -76,6 +80,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve product by ID")
@@ -84,6 +89,7 @@ public class ProductController {
     }
 
     @GetMapping("/bulk/{ids}")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve products by IDs")
@@ -92,6 +98,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve products by ID")
@@ -100,6 +107,7 @@ public class ProductController {
     }
 
     @PutMapping("/bulk/{ids}")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Update product by ID")
@@ -108,6 +116,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Delete product by ID")
@@ -117,6 +126,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/bulk/{ids}")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Delete products by ID")

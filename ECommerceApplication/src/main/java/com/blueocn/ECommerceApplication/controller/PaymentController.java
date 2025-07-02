@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,6 +27,7 @@ public class PaymentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('CUSTOMER','ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Create payment")
@@ -43,6 +45,7 @@ public class PaymentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve all payments")
@@ -51,6 +54,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve payment by ID")
@@ -59,6 +63,7 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Update payment by ID")
@@ -67,6 +72,7 @@ public class PaymentController {
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("hasAnyRole('CUSTOMER','ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Patch payment by ID")
@@ -75,6 +81,7 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Delete payment by ID")

@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,6 +26,7 @@ public class OrderController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Create order")
@@ -43,6 +45,7 @@ public class OrderController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve all orders")
@@ -51,6 +54,7 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Update order by ID")
@@ -59,6 +63,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Delete order by ID")
