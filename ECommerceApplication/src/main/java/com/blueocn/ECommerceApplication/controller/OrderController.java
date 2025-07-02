@@ -5,6 +5,7 @@ import com.blueocn.ECommerceApplication.model.dto.order.OrderDTO;
 import com.blueocn.ECommerceApplication.model.dto.order.OrderUpdateDTO;
 import com.blueocn.ECommerceApplication.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ public class OrderController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Create order")
     public ResponseEntity<OrderDTO> createOrder(@RequestBody @Valid OrderCreateDTO newOrder) {
         // Create Resource
@@ -40,18 +43,24 @@ public class OrderController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve all orders")
     public ResponseEntity<List<OrderDTO>> getOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Update order by ID")
     public ResponseEntity<OrderDTO> updateOrderById(@PathVariable(name = "id") Long id, @RequestBody @Valid OrderUpdateDTO updatedOrder) {
         return ResponseEntity.ok(orderService.updateOrderById(id, updatedOrder));
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Delete order by ID")
     public ResponseEntity<String> deleteOrderById(@PathVariable(name = "id") Long id) {
         orderService.deleteOrderById(id);

@@ -1,7 +1,11 @@
 package com.blueocn.ECommerceApplication.controller;
 
+import com.blueocn.ECommerceApplication.model.dto.auth.AuthLoginDTO;
 import com.blueocn.ECommerceApplication.model.dto.auth.AuthRegisterDTO;
+import com.blueocn.ECommerceApplication.model.dto.auth.AuthResponseDTO;
 import com.blueocn.ECommerceApplication.service.AuthService;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,5 +34,16 @@ public class AuthController {
                 .buildAndExpand(userId)
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping("/sessions")
+    public ResponseEntity<AuthResponseDTO> loginUser(@RequestBody @Valid AuthLoginDTO request, HttpServletResponse response) {
+
+        // Prevent caching
+        response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+
+        return ResponseEntity.ok().body(authService.loginUser(request));
     }
 }

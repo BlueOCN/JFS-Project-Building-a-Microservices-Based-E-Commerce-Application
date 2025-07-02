@@ -6,6 +6,7 @@ import com.blueocn.ECommerceApplication.model.dto.payment.PaymentPatchDTO;
 import com.blueocn.ECommerceApplication.model.dto.payment.PaymentUpdateDTO;
 import com.blueocn.ECommerceApplication.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,8 @@ public class PaymentController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Create payment")
     public ResponseEntity<PaymentDTO> createPayment(@RequestBody @Valid PaymentCreateDTO newPayment) {
 
@@ -40,30 +43,40 @@ public class PaymentController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve all payments")
     public ResponseEntity<List<PaymentDTO>> getAllPayments() {
         return ResponseEntity.ok(paymentService.readAllPayments());
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve payment by ID")
     public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(paymentService.readPaymentById(id));
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Update payment by ID")
     public ResponseEntity<PaymentDTO> updatePaymentById(@PathVariable(name = "id") Long id, @RequestBody @Valid PaymentUpdateDTO updatedPayment) {
         return ResponseEntity.ok(paymentService.updatePaymentById(id, updatedPayment));
     }
 
     @PatchMapping("{id}")
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Patch payment by ID")
     public ResponseEntity<PaymentDTO> patchPaymentById(@PathVariable(name = "id") Long id, @RequestBody @Valid PaymentPatchDTO patchedPayment) {
         return ResponseEntity.ok(paymentService.patchPaymentById(id, patchedPayment));
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "basicAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Delete payment by ID")
     public ResponseEntity<?> deletePaymentById(@PathVariable(name = "id") Long id) {
         paymentService.deletePaymentById(id);
