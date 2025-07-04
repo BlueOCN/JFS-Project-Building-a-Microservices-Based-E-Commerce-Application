@@ -8,6 +8,7 @@ import com.blueocn.ECommerceApplication.model.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -57,13 +58,26 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
-
+    // Read all products by id list
     public List<ProductDTO> getAllProductsByIds(List<Long> ids) {
         return productRepository.findAllById(ids)
                 .stream().map(productMapper::toDTO)
                 .toList();
     }
 
+    // Find product by Name
+    public ProductDTO getProductByName(String name) {
+        return productRepository.findProductByName(name)
+                .map(productMapper::toDTO)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    // Find all product that share the same name
+    public List<ProductDTO> getAllProductsByName(String name) {
+        return productRepository.findAllProductsByName(name)
+                .stream().map(productMapper::toDTO)
+                .toList();
+    }
 
     // Update product by id
     public ProductDTO updateProductById(Long id, ProductDTO updatedProduct) {
@@ -127,6 +141,18 @@ public class ProductService {
         }
 
         productRepository.deleteAllById(ids);
+    }
+
+    // Check a product stock by ID
+    private Boolean checkStockById(Long id) {
+        Optional<ProductEntity> product = productRepository.findById(id);
+        return product.filter(productEntity -> productEntity.getStock() > 0).isPresent();
+    }
+
+    // Check a product stock by Name
+    private Boolean checkStockByName(String name) {
+        Optional<ProductEntity> product = productRepository.findProductByName(name);
+        return product.filter(productEntity -> productEntity.getStock() > 0).isPresent();
     }
 
 }

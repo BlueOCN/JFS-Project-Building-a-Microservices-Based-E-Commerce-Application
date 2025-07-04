@@ -74,8 +74,15 @@ public class ProductController {
     @SecurityRequirement(name = "basicAuth")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Retrieve all products")
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+    public ResponseEntity<List<ProductDTO>> getAllProducts(
+            @RequestParam(required = false) String name
+    ) {
+
+        if (name != null) {
+            return ResponseEntity.ok(productService.getAllProductsByName(name));
+        } else {
+            return ResponseEntity.ok(productService.getAllProducts());
+        }
 
     }
 
@@ -134,4 +141,5 @@ public class ProductController {
         productService.deleteProductsByIds(ids);
         return ResponseEntity.ok().build();
     }
+
 }
