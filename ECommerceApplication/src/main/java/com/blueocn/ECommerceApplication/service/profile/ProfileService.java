@@ -1,4 +1,4 @@
-package com.blueocn.ECommerceApplication.service.user;
+package com.blueocn.ECommerceApplication.service.profile;
 
 import com.blueocn.ECommerceApplication.model.entity.ProfileEntity;
 import com.blueocn.ECommerceApplication.model.repository.ProfileRepository;

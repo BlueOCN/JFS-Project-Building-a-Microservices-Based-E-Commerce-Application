@@ -8,14 +8,12 @@ import com.blueocn.ECommerceApplication.model.entity.UserEntity;
 import com.blueocn.ECommerceApplication.model.entity.ProfileEntity;
 import com.blueocn.ECommerceApplication.service.user.AuthorityService;
 import com.blueocn.ECommerceApplication.service.user.UserService;
-import com.blueocn.ECommerceApplication.service.user.ProfileService;
+import com.blueocn.ECommerceApplication.service.profile.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
