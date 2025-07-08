@@ -7,6 +7,7 @@ import com.blueocn.ECommerceApplication.model.entity.OrderEntity;
 import com.blueocn.ECommerceApplication.model.entity.ProductEntity;
 import com.blueocn.ECommerceApplication.model.mapper.OrderMapper;
 import com.blueocn.ECommerceApplication.model.repository.OrderRepository;
+import com.blueocn.ECommerceApplication.model.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -21,79 +22,79 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
-    private final WebClient productWebClient;
+    private final ProductRepository productRepository;
 
     OrderService(
             OrderRepository orderRepository,
             OrderMapper orderMapper,
-            WebClient productWebClient
+            ProductRepository productRepository
     ) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
-        this.productWebClient = productWebClient;
+        this.productRepository = productRepository;
     }
 
     // Create order
-//    public OrderDTO createOrder(OrderCreateDTO newOrder) {
-//
-//        // Extract Order Product's Ids from the New Order
-//        List<Long> orderProductIds = newOrder.getOrderProducts();
-//
-//        // Find Order Product's Details on the DB
-//        List<ProductEntity> orderProducts = productRepository.findAllById(orderProductIds);
-//
-//        OrderEntity newCompleteOrder = new OrderEntity(
-//                newOrder.getProfileId(),
-//                newOrder.getOrderStatus(),
-//                LocalDateTime.now(),
-//                LocalDateTime.now(),
-//                orderProducts
-//        );
-//
-//        OrderEntity createdOrder = orderRepository.save(newCompleteOrder);
-//        return orderMapper.toDTO(createdOrder);
-//    }
-
     public OrderDTO createOrder(OrderCreateDTO newOrder) {
 
         // Extract Order Product's Ids from the New Order
         List<Long> orderProductIds = newOrder.getOrderProducts();
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/products/bulk/{ids}")
-                .buildAndExpand(orderProductIds.stream().map(String::valueOf).collect(Collectors.joining(",")))
-                .toUri();
-
-        // Send GET request to Product Controller
-        List<ProductEntity> matchProducts = productWebClient.get()
-                .uri(location)
-                .retrieve()
-                .bodyToFlux(ProductEntity.class)
-                .collectList()
-                .block();
-
-        if (matchProducts == null || matchProducts.isEmpty()) {
-            throw new IllegalArgumentException("Failed to fetch products for given IDs");
-        }
-
-        if (matchProducts.size() != orderProductIds.size()) {
-            throw new IllegalStateException("Some product IDs could not be resolved");
-        }
-
+        // Find Order Product's Details on the DB
+        List<ProductEntity> orderProducts = productRepository.findAllById(orderProductIds);
 
         OrderEntity newCompleteOrder = new OrderEntity(
                 newOrder.getUserId(),
                 newOrder.getOrderStatus(),
                 LocalDateTime.now(),
                 LocalDateTime.now(),
-                matchProducts
+                orderProducts
         );
 
         OrderEntity createdOrder = orderRepository.save(newCompleteOrder);
         return orderMapper.toDTO(createdOrder);
-
     }
+
+//    public OrderDTO createOrder(OrderCreateDTO newOrder) {
+//
+//        // Extract Order Product's Ids from the New Order
+//        List<Long> orderProductIds = newOrder.getOrderProducts();
+//
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentContextPath()
+//                .path("/products/bulk/{ids}")
+//                .buildAndExpand(orderProductIds.stream().map(String::valueOf).collect(Collectors.joining(",")))
+//                .toUri();
+//
+//        // Send GET request to Product Controller
+//        List<ProductEntity> matchProducts = productWebClient.get()
+//                .uri(location)
+//                .retrieve()
+//                .bodyToFlux(ProductEntity.class)
+//                .collectList()
+//                .block();
+//
+//        if (matchProducts == null || matchProducts.isEmpty()) {
+//            throw new IllegalArgumentException("Failed to fetch products for given IDs");
+//        }
+//
+//        if (matchProducts.size() != orderProductIds.size()) {
+//            throw new IllegalStateException("Some product IDs could not be resolved");
+//        }
+//
+//
+//        OrderEntity newCompleteOrder = new OrderEntity(
+//                newOrder.getUserId(),
+//                newOrder.getOrderStatus(),
+//                LocalDateTime.now(),
+//                LocalDateTime.now(),
+//                matchProducts
+//        );
+//
+//        OrderEntity createdOrder = orderRepository.save(newCompleteOrder);
+//        return orderMapper.toDTO(createdOrder);
+//
+//    }
 
 
     // Get all orders
@@ -114,25 +115,14 @@ public class OrderService {
         // Extract Order Product's Ids from the New Order
         List<Long> orderProductIds = updatedOrder.getOrderProductIds();
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/products/bulk/{ids}")
-                .buildAndExpand(orderProductIds.stream().map(String::valueOf).collect(Collectors.joining(",")))
-                .toUri();
-
-        // Send GET request to Product Controller
-        List<ProductEntity> matchProducts = productWebClient.get()
-                .uri(location)
-                .retrieve()
-                .bodyToFlux(ProductEntity.class)
-                .collectList()
-                .block();
+        // Find Order Product's Details on the DB
+        List<ProductEntity> orderProducts = productRepository.findAllById(orderProductIds);
 
         return orderRepository.findById(id)
                 .map(currentOrder -> {
                     currentOrder.setUserId(updatedOrder.getUserId());
                     currentOrder.setOrderStatus(updatedOrder.getOrderStatus());
-                    currentOrder.setOrderProducts(matchProducts);
+                    currentOrder.setOrderProducts(orderProducts);
                     currentOrder.setUpdatedAt(LocalDateTime.now());
                     return orderMapper.toDTO(orderRepository.save(currentOrder));
                 }).orElseThrow(() -> new RuntimeException("Order not found"));

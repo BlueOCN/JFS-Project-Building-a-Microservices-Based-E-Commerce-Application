@@ -3,7 +3,6 @@ package com.blueocn.ECommerceApplication.config;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,25 +22,9 @@ public class WebClientConfig {
 //    }
 
     @Bean
-    @Primary
     public WebClient productWebClient() {
         return WebClient.builder()
                 .baseUrl("http://product-service")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .filter((request, next) -> {
-                    String jwt = extractJwtToken(); // Same logic from above
-                    ClientRequest newRequest = ClientRequest.from(request)
-                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
-                            .build();
-                    return next.exchange(newRequest);
-                })
-                .build();
-    }
-
-    @Bean
-    public WebClient idEncodingWebClient() {
-        return WebClient.builder()
-                .baseUrl("http://idencoding-service")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .filter((request, next) -> {
                     String jwt = extractJwtToken(); // Same logic from above
