@@ -3,14 +3,12 @@ package com.blueocn.ECommerceApplication.controller;
 import com.blueocn.ECommerceApplication.model.dto.cart.CartProductCreateDTO;
 import com.blueocn.ECommerceApplication.model.entity.cart.CartEntity;
 import com.blueocn.ECommerceApplication.model.entity.cart.CartProductEntity;
-import com.blueocn.ECommerceApplication.model.entity.cart.CartProductId;
 import com.blueocn.ECommerceApplication.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -21,11 +19,9 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
-    private final WebClient idEncoderWebClient;
 
-    public CartController(CartService cartService, WebClient idEncoderWebClient) {
+    public CartController(CartService cartService) {
         this.cartService = cartService;
-        this.idEncoderWebClient = idEncoderWebClient;
     }
 
     @PostMapping
@@ -36,24 +32,10 @@ public class CartController {
     public ResponseEntity<CartEntity> createCart(@RequestBody Long profileId) {
         CartEntity cart = cartService.createCart(profileId);
 
-        URI encoderLocation = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/encoder/encode/{id}")
-                .buildAndExpand(cart.getCartId())
-                .toUri();
-
-
-        String encodedId = idEncoderWebClient.get()
-                .uri(encoderLocation)
-                .retrieve()
-                .bodyToFlux(String.class)
-                .single()
-                .block();
-
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/{id}")
-                .buildAndExpand(encodedId)
+                .buildAndExpand(cart.getCartId())
                 .encode()
                 .toUri();
 
